@@ -47,29 +47,32 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAbS8Qfx7Dbxvdi5wKcxGojxc9EsFlgyzg',
-    appId: '1:135986466309:web:12d65e2b877edffb4e566c',
-    messagingSenderId: '135986466309',
-    projectId: 'e-commerce-app-e88ba',
-    authDomain: 'e-commerce-app-e88ba.firebaseapp.com',
-    storageBucket: 'e-commerce-app-e88ba.firebasestorage.app',
-    measurementId: 'G-XD6NK3E31Y',
+    apiKey: 'AIzaSyCbohzibQ1QDz1OBl2vYwtTDftDlrdC_WI',
+    appId: '1:645151843994:web:137956079a0ba3b2ab2123',
+    messagingSenderId: '645151843994',
+    projectId: 'fir-crud-ffe3b',
+    authDomain: 'fir-crud-ffe3b.firebaseapp.com',
+    databaseURL: 'https://fir-crud-ffe3b-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'fir-crud-ffe3b.appspot.com',
+    measurementId: 'G-BCXC3Q4GK3',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCnLvrAg-lPVeOBOPVyBTjknkuBmb2AR38',
-    appId: '1:135986466309:android:1a0a1cc0388b88ca4e566c',
-    messagingSenderId: '135986466309',
-    projectId: 'e-commerce-app-e88ba',
-    storageBucket: 'e-commerce-app-e88ba.firebasestorage.app',
+    apiKey: 'AIzaSyAs1yMGII8UYdtLCk6HTpWZ3anQ9tN2Zrg',
+    appId: '1:645151843994:android:946df81795e62f2aab2123',
+    messagingSenderId: '645151843994',
+    projectId: 'fir-crud-ffe3b',
+    databaseURL: 'https://fir-crud-ffe3b-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'fir-crud-ffe3b.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyB-wNMudBInpLd0bxn9LNM_OWt8hV4loCI',
-    appId: '1:135986466309:ios:13173d8ae88daaf14e566c',
-    messagingSenderId: '135986466309',
-    projectId: 'e-commerce-app-e88ba',
-    storageBucket: 'e-commerce-app-e88ba.firebasestorage.app',
+    apiKey: 'AIzaSyA9szQESktcdaz_e2Ts8sP75PLzbi8QvLM',
+    appId: '1:645151843994:ios:2097f6dc690124f9ab2123',
+    messagingSenderId: '645151843994',
+    projectId: 'fir-crud-ffe3b',
+    databaseURL: 'https://fir-crud-ffe3b-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'fir-crud-ffe3b.appspot.com',
     iosBundleId: 'com.example.eCommerceApp',
   );
 }

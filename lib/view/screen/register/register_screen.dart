@@ -1,24 +1,32 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import '../../../utils/app_color.dart';
-import '../home/home_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+  RegisterScreen({Key? key}) : super(key: key);
+
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
+
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
+
   final FirebaseAuth registerAuth = FirebaseAuth.instance;
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  bool _isPasswordHidden = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.backgroundColorSp,
+      backgroundColor: Colors.green[100],
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -27,14 +35,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   "Create Account",
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  "Register to get started",
-                  style: TextStyle(fontSize: 16, color: AppColor.imageCilor),
+                  style: TextStyle(
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.indigo[900],
+                  ),
                 ),
                 const SizedBox(height: 40),
 
@@ -51,6 +58,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                 ),
                 const SizedBox(height: 20),
+
+                // Phone Input Field
+                buildTextField(
+                  controller: phoneController,
+                  hintText: 'Enter Your Phone',
+                  icon: Icons.phone_android,
+                  maxLength: 10,
+                  keyboardType: TextInputType.phone,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your phone';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+
+                // Email Input Field
                 buildTextField(
                   controller: emailController,
                   hintText: 'Enter Your Email',
@@ -64,7 +89,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     return null;
                   },
                 ),
-
                 const SizedBox(height: 20),
 
                 // Password Input Field
@@ -72,40 +96,71 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: passwordController,
                   hintText: 'Enter Your Password',
                   icon: Icons.lock_outline,
-                  obscureText: true,
+                  obscureText: _isPasswordHidden,
+                  maxLength: 6,
+                  keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
-                    } else if (value.length < 6) {
-                      return 'Password should be at least 6 characters';
+                      return 'Please enter a password';
+                    } else if (value.length > 6) {
+                      return 'Password cannot exceed 6 digits';
                     }
                     return null;
                   },
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isPasswordHidden ? Icons.visibility_off : Icons.visibility,
+                      color: AppColor.iconColor,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordHidden = !_isPasswordHidden;
+                      });
+                    },
+                  ),
                 ),
-
                 const SizedBox(height: 40),
 
                 // Register Button
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      registerUser(
-                        nameController.text,
-                        emailController.text,
-                        passwordController.text,
-                      );
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColor.primaryColor,
-                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                Container(
+                  width: double.infinity,
+                  height: 50,
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        registerUser(
+                          nameController.text,
+                          emailController.text,
+                          passwordController.text,
+                        );
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.indigo[900],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: Text(
+                      'Register Now',
+                      style: TextStyle(fontSize: 16, color: AppColor.texCilor),
                     ),
                   ),
-                  child: const Text(
-                    'Register Now',
-                    style: TextStyle(fontSize: 16, color: AppColor.textColor),
+                ),
+                const SizedBox(height: 20),
+
+                // Navigate to Login Screen
+                TextButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: Text(
+                    'Already have an account? Login here',
+                    style: TextStyle(
+                      color: Colors.indigo[900],
+                      fontSize: 16,
+                    ),
                   ),
                 ),
               ],
@@ -115,51 +170,53 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
     );
   }
+
   Widget buildTextField({
     required TextEditingController controller,
     required String hintText,
     required IconData icon,
     bool obscureText = false,
     required FormFieldValidator<String> validator,
+    Widget? suffixIcon,
+    int? maxLength,
+    TextInputType? keyboardType,
   }) {
-    return TextFormField(
-      controller: controller,
-      obscureText: obscureText,
-      decoration: InputDecoration(
-        prefixIcon: Icon(icon, color: AppColor.iconColor),
-        hintText: hintText,
-        filled: true,
-        fillColor: Colors.grey[200],
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide.none,
-        ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+    return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
       ),
-      validator: validator,
+      child: TextFormField(
+        controller: controller,
+        obscureText: obscureText,
+        keyboardType: keyboardType,
+        maxLength: maxLength,
+        decoration: InputDecoration(
+          prefixIcon: Icon(icon, color: AppColor.iconColor),
+          suffixIcon: suffixIcon,
+          hintText: hintText,
+          filled: true,
+          fillColor: Colors.grey[200],
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+          counterText: '',  // Hide the counter
+        ),
+        validator: validator,
+      ),
     );
   }
-  registerUser(String name, String email, String password) async {
+
+  void registerUser(String name, String email, String password) async {
     try {
-      var userCredential = await registerAuth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .catchError((error) {
-        Fluttertoast.showToast(
-          msg: "$error",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0,
-        );
-      });
+      var userCredential = await registerAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
       if (userCredential.user != null) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (_) => const HomepageScreen()),
-              (_) => false,
-        );
+        Get.offAllNamed('/home');
         Fluttertoast.showToast(
           msg: "Registration successful",
           toastLength: Toast.LENGTH_SHORT,

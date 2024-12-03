@@ -1,13 +1,33 @@
 {
   "project_info": {
-    "project_number": "135986466309",
-    "project_id": "e-commerce-app-e88ba",
-    "storage_bucket": "e-commerce-app-e88ba.firebasestorage.app"
+    "project_number": "645151843994",
+    "firebase_url": "https://fir-crud-ffe3b-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "fir-crud-ffe3b",
+    "storage_bucket": "fir-crud-ffe3b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:135986466309:android:1a0a1cc0388b88ca4e566c",
+        "mobilesdk_app_id": "1:645151843994:android:a24823b9c903e979ab2123",
+        "android_client_info": {
+          "package_name": "com.example.crud_firibase_firestore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs1yMGII8UYdtLCk6HTpWZ3anQ9tN2Zrg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645151843994:android:946df81795e62f2aab2123",
         "android_client_info": {
           "package_name": "com.example.e_commerce_app"
         }
@@ -15,7 +35,121 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCnLvrAg-lPVeOBOPVyBTjknkuBmb2AR38"
+          "current_key": "AIzaSyAs1yMGII8UYdtLCk6HTpWZ3anQ9tN2Zrg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645151843994:android:caec2e59b80a9e08ab2123",
+        "android_client_info": {
+          "package_name": "com.example.e_commerce_app_onlinesh"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs1yMGII8UYdtLCk6HTpWZ3anQ9tN2Zrg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645151843994:android:144e8350648a3270ab2123",
+        "android_client_info": {
+          "package_name": "com.example.e_commerce_app_onlineshoping"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs1yMGII8UYdtLCk6HTpWZ3anQ9tN2Zrg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645151843994:android:b1a4dc2f84d4326aab2123",
+        "android_client_info": {
+          "package_name": "com.example.learn_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs1yMGII8UYdtLCk6HTpWZ3anQ9tN2Zrg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645151843994:android:622e820938a95f25ab2123",
+        "android_client_info": {
+          "package_name": "com.example.map_integretion"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs1yMGII8UYdtLCk6HTpWZ3anQ9tN2Zrg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645151843994:android:8f2f5875b830d174ab2123",
+        "android_client_info": {
+          "package_name": "com.example.push_notification_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs1yMGII8UYdtLCk6HTpWZ3anQ9tN2Zrg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645151843994:android:a7c9de3dc8aafb69ab2123",
+        "android_client_info": {
+          "package_name": "com.example.realtime_database_crud"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs1yMGII8UYdtLCk6HTpWZ3anQ9tN2Zrg"
         }
       ],
       "services": {

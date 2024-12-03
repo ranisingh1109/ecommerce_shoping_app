@@ -1,21 +1,33 @@
+import 'package:e_commerce_app/firebase_options.dart';
+import 'package:e_commerce_app/view/screen/home/home_screen.dart';
+import 'package:e_commerce_app/view/screen/login/login_srceen.dart';
+import 'package:e_commerce_app/view/screen/register/register_screen.dart';
 import 'package:e_commerce_app/view/screen/splash/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'controller/favorites/favorites_controller.dart';
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  Get.put(FavoritesController());
+  runApp(MyApp());
 }
+
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const SplashScreen(),
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/splash',
+      getPages: [
+        GetPage(name: '/splash', page: () => SplashScreen()),
+        GetPage(name: '/login', page: () => LoginScreen()),
+        GetPage(name: '/register', page: () =>  RegisterScreen()),
+        GetPage(name: '/home', page: () => const HomepageScreen()),
+      ],
     );
   }
 }
-
