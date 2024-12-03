@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/utils/app_color.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
@@ -32,9 +33,9 @@ class ProductCard extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
                 Positioned(
-                  top: 5,
+                  bottom: 60,
                   right: 5,
-                  child: CircleAvatar(
+                  child: CircleAvatar(backgroundColor: AppColor.texCilor,
                     child: IconButton(
                       onPressed: onFavorite,
                       icon: Icon(

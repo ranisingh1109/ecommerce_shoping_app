@@ -505,7 +505,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   fontSize: 16.0,
                 );
               }, onFavorite: () {
-
             },
             );
           },
