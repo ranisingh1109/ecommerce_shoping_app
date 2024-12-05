@@ -179,6 +179,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
     },
   ];
 
+  get productIndex => null;
+
   @override
   void initState() {
     super.initState();
@@ -186,6 +188,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final FavoritesController3 favoritesController =
+        Get.find<FavoritesController3>();
+
     return Scaffold(
       backgroundColor: AppColor.texCilor,
       appBar: AppBar(
@@ -237,8 +242,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
           ),
         ],
       ),
-      body:
-      Flexible(
+      body: Flexible(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -300,13 +304,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
           ),
         ),
       ),
-
     );
   }
 
-  Widget buildImageCard(String imageUrl, String labelText, String price, int index) {
-    final FavoritesController favoritesController = Get.find<FavoritesController>();
-    final CartController cartController = Get.find<CartController>();  // Add CartController
+  Widget buildImageCard(
+      String imageUrl, String labelText, String price, int index) {
+    final FavoritesController3 favoritesController = Get.find<FavoritesController3>();
+    final CartController cartController = Get.find<CartController>(); // Add CartController
 
     return Container(
       width: 220,
@@ -348,7 +352,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
               Text(
                 price,
                 style: const TextStyle(
-                  fontSize: 16,color: Colors.green,
+                  fontSize: 16,
+                  color: Colors.green,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -363,29 +368,29 @@ class _ProductListScreenState extends State<ProductListScreen> {
               radius: 20,
               backgroundColor: Colors.white,
               child: Obx(() => IconButton(
-                onPressed: () {
-                  favoritesController.toggleFavorite(index);
+                    onPressed: () {
+                      favoritesController.toggleFavorite(index);
 
-                  // Display a toast message
-                  Fluttertoast.showToast(
-                    msg: favoritesController.isFavorite(index)
-                        ? "Added to Favorites"
-                        : "Removed from Favorites",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    backgroundColor: Colors.green,
-                    textColor: Colors.white,
-                  );
-                },
-                icon: Icon(
-                  favoritesController.isFavorite(index)
-                      ? Icons.favorite
-                      : Icons.favorite_border,
-                  color: favoritesController.isFavorite(index)
-                      ? Colors.red
-                      : Colors.black,
-                ),
-              )),
+                      // Display a toast message
+                      Fluttertoast.showToast(
+                        msg: favoritesController.isFavorite(index)
+                            ? "Added to Favorites"
+                            : "Removed from Favorites",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: Colors.green,
+                        textColor: Colors.white,
+                      );
+                    },
+                    icon: Icon(
+                      favoritesController.isFavorite(index)
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color: favoritesController.isFavorite(index)
+                          ? Colors.red
+                          : Colors.black,
+                    ),
+                  )),
             ),
           ),
           Positioned(
@@ -418,7 +423,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   textStyle: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -490,7 +496,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProductDetailScreen(product: product),
+                    builder: (context) => ProductDetailScreen(product: product, productIndex: index,),
                   ),
                 );
               },
@@ -504,13 +510,12 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   textColor: Colors.white,
                   fontSize: 16.0,
                 );
-              }, onFavorite: () {
-            },
+              },
+
             );
           },
         ),
       );
     });
   }
-
 }

@@ -3,9 +3,10 @@ import 'package:get/get.dart';
 
 import '../../../controller/favorites/favorites_controller.dart';
 
+
 class FavoriteScreen extends StatelessWidget {
-  final FavoritesController favoritesController = Get.find<FavoritesController>();
-  final List<Map<String, String>> products = [
+  final List<Map<String, String>> products =
+  [
     {
       "imageUrl":
       "https://www.graphixking.com/wp-content/uploads/2020/09/Girl-T-Shirt-Heart-Glitter-Print.jpg",
@@ -167,42 +168,44 @@ class FavoriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FavoritesController3 favoritesController = Get.find<FavoritesController3>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Favorites"),
       ),
       body: Obx(() {
-      final favorites = favoritesController.favorites;
+        final favorites = favoritesController.favorites;
 
-      if (favorites.isEmpty) {
-        return const Center(
-          child: Text("No favorites yet!"),
-        );
-      }
-
-      return ListView.builder(
-        itemCount: favorites.length,
-        itemBuilder: (context, index) {
-          final favoriteIndex = favorites[index];
-          final product = products[favoriteIndex];
-
-          return Card(
-            child: ListTile(
-              leading: Image.network(product['imageUrl']!),
-              title: Text(product['labelText']!),
-              subtitle: Text(product['price']!),
-              trailing: IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () {
-                  favoritesController.toggleFavorite(favoriteIndex);
-                },
-              ),
-            ),
+        if (favorites.isEmpty) {
+          return const Center(
+            child: Text("No favorites yet!"),
           );
-        },
-      );
-    }),
+        }
+        return ListView.builder(
+          itemCount: favorites.length,
+          itemBuilder: (context, index) {
+            final favoriteIndex = favorites[index];
+            final product = products[favoriteIndex];
 
+            return Card(
+              child: ListTile(
+                leading: Image.network(product['imageUrl']!),
+                title: Text(product['labelText']!),
+                subtitle: Text(product['price']!),
+                trailing: IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    favoritesController.toggleFavorite(favoriteIndex);
+                  },
+                ),
+              ),
+            );
+          },
+        );
+      }),
     );
   }
 }
+
+

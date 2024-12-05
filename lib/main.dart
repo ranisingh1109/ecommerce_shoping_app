@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/controller/profile/profile_controller.dart';
 import 'package:e_commerce_app/firebase_options.dart';
 import 'package:e_commerce_app/view/screen/home/home_screen.dart';
 import 'package:e_commerce_app/view/screen/login/login_srceen.dart';
@@ -13,7 +14,12 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   Get.put(FavoritesController());
+  Get.put(FavoritesController3());
+  Get.put(ProfileController());
+
+
   runApp(MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
@@ -21,6 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      title: "E-Commerce App",
       initialRoute: '/splash',
       getPages: [
         GetPage(name: '/splash', page: () => SplashScreen()),

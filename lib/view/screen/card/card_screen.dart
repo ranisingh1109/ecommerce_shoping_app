@@ -104,7 +104,8 @@ class CartScreen extends StatelessWidget {
               child: SizedBox(
                 width: double.infinity,
                 height: 50,
-                child: ElevatedButton(
+                child:
+                ElevatedButton(
                   onPressed: () {
                     // Handle purchase logic here
                     print("Proceed to checkout");

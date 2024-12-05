@@ -41,7 +41,8 @@ dependencies:
   shimmer: any
   get: any
   fluttertoast: any
-  razorpay_flutter: any
+  image_picker: any
+
 
 
 dev_dependencies:
