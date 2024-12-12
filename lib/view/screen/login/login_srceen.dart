@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green[50],
+      //backgroundColor: Colors.green[50],
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -122,7 +122,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget buildTextField({
+  Widget
+  buildTextField({
     required TextEditingController controller,
     required String hintText,
     required IconData icon,
@@ -140,8 +141,8 @@ class _LoginScreenState extends State<LoginScreen> {
         controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(
-          prefixIcon: Icon(icon, color: AppColor.iconColor),
-          suffixIcon: suffixIcon, // Assign suffix icon here
+          prefixIcon: Icon(icon, color: Colors.red),
+          suffixIcon: suffixIcon,
           hintText: hintText,
           filled: true,
           fillColor: Colors.grey[200],

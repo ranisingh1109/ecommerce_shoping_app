@@ -38,10 +38,14 @@ dependencies:
   http: any
   firebase_auth: any
   firebase_core: any
+  firebase_database: any
   shimmer: any
   get: any
   fluttertoast: any
   image_picker: any
+  cloud_firestore: ^4.0.0
+  firebase_storage: ^11.0.0
+
 
 
 

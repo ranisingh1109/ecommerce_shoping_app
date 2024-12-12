@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../utils/app_color.dart';
 import '../History/history_screen.dart';
 import '../Payment/payment_screen.dart';
@@ -9,11 +8,15 @@ import '../profile/profile_screen.dart';
 
 class HomepageScreen extends StatefulWidget {
   const HomepageScreen({super.key});
+
   @override
   State<HomepageScreen> createState() => _HomepageScreenState();
 }
+
 class _HomepageScreenState extends State<HomepageScreen> {
   int _selectedIndex = 0;
+
+  // Pages for Navigation
   static final List<Widget> _pages = <Widget>[
     ProductListScreen(),
     FavoriteScreen(),
@@ -22,6 +25,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
     ProfileScreen(),
   ];
 
+  // Method to switch pages
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -32,30 +36,34 @@ class _HomepageScreenState extends State<HomepageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _pages[_selectedIndex],
+        child: _pages[_selectedIndex], // Selected page
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
+        selectedItemColor: Colors.red,
+        unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
+        //backgroundColor: AppColor.backgroundColorSp, // Background color
         onTap: _onItemTapped,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            backgroundColor: AppColor.backgroundColorSp,
-            icon: Icon(Icons.home, color: AppColor.texCilor),
-            label: 'Home,',
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
-          BottomNavigationBarItem(backgroundColor: AppColor.backgroundColorSp,
+          BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: 'Favorite',
           ),
-          BottomNavigationBarItem(backgroundColor: AppColor.backgroundColorSp,
+          BottomNavigationBarItem(
             icon: Icon(Icons.payment),
             label: 'Payment',
           ),
-          BottomNavigationBarItem(backgroundColor: AppColor.backgroundColorSp,
+          BottomNavigationBarItem(
             icon: Icon(Icons.history),
             label: 'History',
           ),
-          BottomNavigationBarItem(backgroundColor: AppColor.backgroundColorSp,
+          BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
           ),

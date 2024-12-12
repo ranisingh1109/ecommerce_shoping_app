@@ -14,8 +14,6 @@ class FavoritesController extends GetxController {
   }
 }
 
-
-
 class FavoritesController3 extends GetxController {
   var favorites = <int>[].obs;
   void toggleFavorite(int index) {

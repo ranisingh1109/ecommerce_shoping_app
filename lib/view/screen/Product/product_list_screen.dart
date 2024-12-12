@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../controller/favorites/favorites_controller.dart';
+import '../../../controller/image/image_controller.dart';
 import '../../../controller/product/cart_controller.dart';
 import '../../../controller/product/product_controller.dart';
 import '../card/card_screen.dart';
@@ -179,24 +180,27 @@ class _ProductListScreenState extends State<ProductListScreen> {
     },
   ];
 
-  get productIndex => null;
+  final FirebaseStorageService storageService = FirebaseStorageService();
+  late Stream<List<Map<String, String>>> imageUrlsStream;
 
   @override
   void initState() {
     super.initState();
+    imageUrlsStream = storageService.fetchAllImagesWithDetails();
   }
+
+  get productIndex => null;
 
   @override
   Widget build(BuildContext context) {
-    final FavoritesController3 favoritesController =
-        Get.find<FavoritesController3>();
+    Get.find<FavoritesController3>();
 
     return Scaffold(
       backgroundColor: AppColor.texCilor,
       appBar: AppBar(
         backgroundColor: AppColor.backgroundColorSp,
-        title: Center(
-          child: const Text(
+        title: const Center(
+          child: Text(
             'Shopping',
             style: TextStyle(color: AppColor.texCilor),
           ),
@@ -261,7 +265,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     child: Text(
                       'Street clothes',
                       style: TextStyle(
-                        color: AppColor.textColor,
+                        color: Colors.black,
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                       ),
@@ -279,7 +283,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 5),
               SizedBox(
                 height: 420,
                 child: ListView.builder(
@@ -296,10 +299,83 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   },
                 ),
               ),
-              Container(
-                color: AppColor.texCilor,
-                child: productData(),
+              SizedBox(height: 5),
+              SizedBox(
+                height: 630,
+                child: StreamBuilder<List<Map<String, String>>>(
+                  stream: imageUrlsStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const SizedBox(); // Empty SizedBox instead of CircularProgressIndicator
+                    }
+
+                    if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    }
+
+                    if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Center(
+                          child: Text('No images available.'));
+                    }
+
+                    return GridView.builder(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 12.0,
+                        mainAxisSpacing: 12.0,
+                        childAspectRatio: 0.8,
+                      ),
+                      padding: const EdgeInsets.all(8.0),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        final item = snapshot.data![index];
+                        return Card(
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(15),
+                                    topRight: Radius.circular(15),
+                                  ),
+                                  child: Image.network(
+                                    item['url'] ?? '',
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                    height: 400,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Price: ${item['price'] ?? 'Rs. 0'}',
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
+
             ],
           ),
         ),
@@ -309,8 +385,10 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   Widget buildImageCard(
       String imageUrl, String labelText, String price, int index) {
-    final FavoritesController3 favoritesController = Get.find<FavoritesController3>();
-    final CartController cartController = Get.find<CartController>(); // Add CartController
+    final FavoritesController3 favoritesController =
+        Get.find<FavoritesController3>();
+    final CartController cartController =
+        Get.find<CartController>();
 
     return Container(
       width: 220,
@@ -402,14 +480,12 @@ class _ProductListScreenState extends State<ProductListScreen> {
               height: 45,
               child: ElevatedButton(
                 onPressed: () {
-                  // Add the item to the cart
                   final item = {
                     'image': imageUrl,
                     'title': labelText,
                     'price': price,
                   };
                   cartController.addToCart(item);
-                  // Show a confirmation message
                   Fluttertoast.showToast(
                     msg: "Added to Cart",
                     toastLength: Toast.LENGTH_SHORT,
@@ -446,7 +522,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
       ),
     );
   }
-
   Widget productData() {
     return Obx(() {
       if (productController.isLoading.value) {
@@ -496,7 +571,10 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProductDetailScreen(product: product, productIndex: index,),
+                    builder: (context) => ProductDetailScreen(
+                      product: product,
+                      productIndex: index,
+                    ),
                   ),
                 );
               },
@@ -511,7 +589,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   fontSize: 16.0,
                 );
               },
-
             );
           },
         ),
