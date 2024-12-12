@@ -15,7 +15,6 @@ import 'controller/favorites/favorites_controller.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  Get.put(FavoritesController());
   Get.put(FavoritesController3());
   Get.put(ProfileController());
   Get.put(AuthController());

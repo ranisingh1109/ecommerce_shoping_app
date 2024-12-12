@@ -10,74 +10,74 @@ import 'package:get/get.dart';
 
 import '../../../controller/favorites/favorites_controller.dart';
 
-class ProductCard extends StatelessWidget {
-  final Map<String, dynamic> product;
-  final VoidCallback onTap;
-  final VoidCallback onAddToCart;
-
-  const ProductCard({
-    required this.product,
-    required this.onTap,
-    required this.onAddToCart,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final FavoritesController3 favoritesController = Get.find<FavoritesController3>();
-
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Stack(
-              children: [
-                Image.network(
-                  product['image'],
-                  width: 170,
-                  height: 100,
-                  fit: BoxFit.cover,
-                ),
-
-              ],
-            ),
-          ),
-          const SizedBox(height: 10),
-          Center(
-            child: Text(
-              product['title'],
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 10,
-              ),
-            ),
-          ),
-          Text(
-            '\$${product['price']}',
-            style: const TextStyle(color: Colors.green),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              onPressed: onAddToCart,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.indigo[900],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: const Text(
-                'Add to Cart',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+// class ProductCard extends StatelessWidget {
+//   final Map<String, dynamic> product;
+//   final VoidCallback onTap;
+//   final VoidCallback onAddToCart;
+//
+//   const ProductCard({
+//     required this.product,
+//     required this.onTap,
+//     required this.onAddToCart,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final FavoritesController3 favoritesController = Get.find<FavoritesController3>();
+//
+//     return GestureDetector(
+//       onTap: onTap,
+//       child: Column(
+//         children: [
+//           Padding(
+//             padding: const EdgeInsets.only(top: 20),
+//             child: Stack(
+//               children: [
+//                 Image.network(
+//                   product['image'],
+//                   width: 170,
+//                   height: 100,
+//                   fit: BoxFit.cover,
+//                 ),
+//
+//               ],
+//             ),
+//           ),
+//           const SizedBox(height: 10),
+//           Center(
+//             child: Text(
+//               product['title'],
+//               style: const TextStyle(
+//                 fontWeight: FontWeight.bold,
+//                 fontSize: 10,
+//               ),
+//             ),
+//           ),
+//           Text(
+//             '\$${product['price']}',
+//             style: const TextStyle(color: Colors.green),
+//           ),
+//           Padding(
+//             padding: const EdgeInsets.all(8.0),
+//             child: ElevatedButton(
+//               onPressed: onAddToCart,
+//               style: ElevatedButton.styleFrom(
+//                 backgroundColor: Colors.indigo[900],
+//                 shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(10),
+//                 ),
+//               ),
+//               child: const Text(
+//                 'Add to Cart',
+//                 style: TextStyle(color: Colors.white),
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class ProductDetailScreen1 extends StatelessWidget {
   final String imageUrl;
@@ -107,7 +107,7 @@ class ProductDetailScreen1 extends StatelessWidget {
                 Image.network(
                   imageUrl,
                   width: double.infinity,
-                  height: 300,
+                  height: 290,
                   fit: BoxFit.cover,
                 ),
                 // Positioned Icons

@@ -5,7 +5,7 @@ class FirebaseStorageService {
 
    Stream<List<Map<String, String>>> fetchAllImagesWithDetails() async* {
       while (true) {
-         await Future.delayed(const Duration(seconds: 5));
+         await Future.delayed(const Duration(seconds: 1));
          try {
             ListResult result = await _storage.ref('shoping').listAll();
             List<Map<String, String>> imagesWithDetails = [];
