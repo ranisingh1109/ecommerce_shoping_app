@@ -3,8 +3,8 @@ import 'package:e_commerce_app/utils/app_color.dart';
 import 'package:e_commerce_app/view/screen/Product/product_card.dart';
 import 'package:e_commerce_app/view/screen/Product/product_detail_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import '../../../controller/auth/auth_controller.dart';
 import '../../../controller/favorites/favorites_controller.dart';
 import '../../../controller/image/image_controller.dart';
 import '../../../controller/product/cart_controller.dart';
@@ -179,87 +179,120 @@ class _ProductListScreenState extends State<ProductListScreen> {
     },
   ];
   final List<Map<String, String>> categories = [
-  {
-  "name": "Dresses",
-  "image":
-  "https://images.meesho.com/images/products/434846730/azccd_1200.jpg"
-  },
-  {
-  "name": "Pants",
-  "image":
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQskcBnr-7IlMjf3d3uAgbKV2t6hqZFeqLyCQ&s"
-  },
-  {
-  "name": "Skirts",
-  "image":
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-0do1Hq5Dm-Er7bJBwDk6y04KDKjZNX9A4A&s"
-  },
-  {
-  "name": "Shorts",
-  "image": "https://m.media-amazon.com/images/I/71RlOgFT-wL._SY695_.jpg"
-  },
-  {
-  "name": "Jackets",
-  "image":
-  "https://hips.hearstapps.com/hmg-prod/images/launchmetrics-paris-str-f20-146b-66bb88a7cdf57.jpg?crop=0.668xw:1.00xh;0.240xw,0&resize=1120:*"
-  },
-  {
-  "name": "Hoodies",
-  "image":
-  "https://shoezero.com/cdn/shop/articles/two_hoodies.webp?v=1691590215&width=2048"
-  },
-  {
-  "name": "Shirts",
-  "image":
-  "https://t4.ftcdn.net/jpg/07/63/26/85/360_F_763268538_sk7wNf87lh0ioZMnAnLBOBlf1unB2RNi.jpg"
-  },
-  {
-  "name": "Polo",
-  "image":
-  "https://rukminim2.flixcart.com/image/832/832/xif0q/shirt/d/z/n/m-a15068-sheetal-associates-original-imah49y2sfqwafh6.jpeg?q=70&crop=false"
-  },
-  {
-  "name": "T-shirts",
-  "image":
-  "https://cdn.pixabay.com/photo/2024/04/29/04/21/tshirt-8726716_640.jpg"
-  },
-  {
-  "name": "Tunics",
-  "image": "https://m.media-amazon.com/images/I/61ZfwTfyumL._SY879_.jpg"
-  },
+    {
+      "name": "Dresses",
+      "image":
+          "https://images.meesho.com/images/products/434846730/azccd_1200.jpg"
+    },
+    {
+      "name": "Pants",
+      "image":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQskcBnr-7IlMjf3d3uAgbKV2t6hqZFeqLyCQ&s"
+    },
+    {
+      "name": "Skirts",
+      "image":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-0do1Hq5Dm-Er7bJBwDk6y04KDKjZNX9A4A&s"
+    },
+    {
+      "name": "Shorts",
+      "image": "https://m.media-amazon.com/images/I/71RlOgFT-wL._SY695_.jpg"
+    },
+    {
+      "name": "Jackets",
+      "image":
+          "https://hips.hearstapps.com/hmg-prod/images/launchmetrics-paris-str-f20-146b-66bb88a7cdf57.jpg?crop=0.668xw:1.00xh;0.240xw,0&resize=1120:*"
+    },
+    {
+      "name": "Hoodies",
+      "image":
+          "https://shoezero.com/cdn/shop/articles/two_hoodies.webp?v=1691590215&width=2048"
+    },
+    {
+      "name": "Shirts",
+      "image":
+          "https://t4.ftcdn.net/jpg/07/63/26/85/360_F_763268538_sk7wNf87lh0ioZMnAnLBOBlf1unB2RNi.jpg"
+    },
+    {
+      "name": "Polo",
+      "image":
+          "https://rukminim2.flixcart.com/image/832/832/xif0q/shirt/d/z/n/m-a15068-sheetal-associates-original-imah49y2sfqwafh6.jpeg?q=70&crop=false"
+    },
+    {
+      "name": "T-shirts",
+      "image":
+          "https://cdn.pixabay.com/photo/2024/04/29/04/21/tshirt-8726716_640.jpg"
+    },
+    {
+      "name": "Tunics",
+      "image": "https://m.media-amazon.com/images/I/61ZfwTfyumL._SY879_.jpg"
+    },
   ];
   final FirebaseStorageService storageService = FirebaseStorageService();
+  final AuthController controller = Get.find();
   late Stream<List<Map<String, String>>> imageUrlsStream;
+  int _currentIndex = 0;
+  TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     imageUrlsStream = storageService.fetchAllImagesWithDetails();
   }
+
   final List<String> images = [
     'https://t3.ftcdn.net/jpg/02/41/43/18/360_F_241431868_8DFQpCcmpEPVG0UvopdztOAd4a6Rqsoo.jpg',
     "https://www.shutterstock.com/image-photo/stunning-happy-girl-long-brown-260nw-640144120.jpg",
     "https://media.istockphoto.com/id/1073935306/photo/girls-carrying-shopping-bags.jpg?s=612x612&w=0&k=20&c=JB-TrME32dc0VTnaXVxsbJIExZqR71m-iyVOnG-7puM=",
     'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQVh6-6RoOO2egoZQiuwayLVyGZV6Kug4qsOzCniE3y923mfxP1vIiC4Xt99o3IkK5MELQQ1dnT8tqKkGag-RA9s3StdfH9vFnlX38QK3KgjX1epqb61L-Law&usqp=CAE',
-     "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcT14z1jYSnhQRWqYBm8DpBd-QBV4WWGHLZKAq-O4KxDTdHa8kVRPlJXrVnRLdLoiCRuJ5LFQgiwarVVcEJxLvhg39zfs4ViRmm48Tc9Ul2m&usqp=CAE",
+    "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcT14z1jYSnhQRWqYBm8DpBd-QBV4WWGHLZKAq-O4KxDTdHa8kVRPlJXrVnRLdLoiCRuJ5LFQgiwarVVcEJxLvhg39zfs4ViRmm48Tc9Ul2m&usqp=CAE",
   ];
-  //final CarouselController controller = CarouselController();
   get productIndex => null;
   @override
   Widget build(BuildContext context) {
-    Get.find<FavoritesController3>();
 
     return Scaffold(
       backgroundColor: AppColor.texCilor,
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
-        title: const Center(
-          child: Text(
-            'Shopping',
-            style: TextStyle(color: AppColor.texCilor),
-          ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            CircleAvatar(
+              backgroundImage: controller.userData['imageUrl'] != null
+                  ? NetworkImage(controller.userData['imageUrl'])
+                  : const AssetImage('assets/placeholder.png') as ImageProvider,
+              radius: 25, // Adjust image size
+            ),
+            const SizedBox(width: 10),
+          ],
         ),
         actions: [
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: Container(
+              width: 220,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 30.0),
+                child: TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    hintText: 'Search...',
+                    hintStyle: TextStyle(color: Colors.black54),
+                    filled: true,
+                    fillColor: Colors.white,
+                    prefixIcon: Icon(Icons.search, color: Colors.black),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ),
+          ),
           Obx(() {
             return IconButton(
               onPressed: () {
@@ -289,15 +322,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
               ),
             );
           }),
-          IconButton(
-            onPressed: () {
-              print("Favorite icon tapped");
-            },
-            icon: const Icon(
-              Icons.favorite,
-              color: AppColor.texCilor,
-            ),
-          ),
+
         ],
       ),
       body: SingleChildScrollView(
@@ -314,26 +339,68 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   autoPlayInterval: const Duration(seconds: 3),
                   enlargeCenterPage: true,
                   viewportFraction: 1.0,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _currentIndex = index; // Update the current index
+                    });
+                  },
                 ),
                 itemBuilder: (context, index, realIndex) {
-                  return Stack(
-                    children: [
-                      Image.network(
+                  return Container(
+                    margin: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15), // Border Radius
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.10),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3), // Shadow position
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: Image.network(
                         images[index],
                         fit: BoxFit.cover,
                         width: double.infinity,
-                        height: 400,
+                        height: 200,
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) return child;
-                          return Center(child: CircularProgressIndicator());
+                          return const Center(
+                              child: CircularProgressIndicator());
                         },
                         errorBuilder: (context, error, stackTrace) {
-                          return Center(child: Text('Image not available'));
+                          return const Center(
+                              child: Text('Image not available'));
                         },
                       ),
-                    ],
+                    ),
                   );
                 },
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  images.length,
+                  (index) => AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    width: _currentIndex == index ? 12.0 : 8.0,
+                    height: 8.0,
+                    margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                    decoration: BoxDecoration(
+                      color: _currentIndex == index ? Colors.blue : Colors.grey,
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 30),
@@ -348,7 +415,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     child: Column(
                       children: [
                         CircleAvatar(
-                          backgroundImage: NetworkImage(categories[index]['image']!),
+                          backgroundImage:
+                              NetworkImage(categories[index]['image']!),
                           radius: 30,
                         ),
                         const SizedBox(height: 8),
@@ -506,7 +574,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
     );
   }
 
-  Widget buildImageCard(String imageUrl, String labelText, String price, int index) {
+  Widget buildImageCard(
+      String imageUrl, String labelText, String price, int index) {
     return Container(
       width: 220,
       margin: const EdgeInsets.all(8.0),

@@ -2,15 +2,21 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 class ProfileController extends GetxController {
-  var imageUrl = ''.obs;
   var name = ''.obs;
-  var phoneNumber = ''.obs;
-  var address = ''.obs;
+  var emailN = ''.obs;
+  var imageUrl = ''.obs;
 
-  void updateProfile(String newName, String newPhone, String newImageUrl ,String newAddress) {
+  void updateProfile(String newName, String newEmail, String newImageUrl) {
     name.value = newName;
-    phoneNumber.value = newPhone;
+    emailN.value = newEmail;
     imageUrl.value = newImageUrl;
-    address.value = newAddress;
+    print("Updated Name: $newName");
+    print("Updated Email: $newEmail");
+    print("Updated Image URL: $newImageUrl");
+  }
+  void fetchUserData() {
+    name.value = "John Doe";
+    emailN.value = "john.doe@example.com";
+    imageUrl.value = "path/to/your/image.jpg"; // Example, replace with actual path
   }
 }

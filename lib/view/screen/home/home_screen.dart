@@ -20,8 +20,8 @@ class _HomepageScreenState extends State<HomepageScreen> {
   static final List<Widget> _pages = <Widget>[
     ProductListScreen(),
     FavoriteScreen(),
-    PaymentScreen(),
     HistoryScreen(),
+    PaymentScreen(),
     ProfileScreen(),
   ];
 
@@ -56,12 +56,12 @@ class _HomepageScreenState extends State<HomepageScreen> {
             label: 'Favorite',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.payment),
-            label: 'Payment',
+            icon: Icon(Icons.shopping_cart_rounded),
+            label: 'Card',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'History',
+            icon: Icon(Icons.payment),
+            label: 'Payment',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

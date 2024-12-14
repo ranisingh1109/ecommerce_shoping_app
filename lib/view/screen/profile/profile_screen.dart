@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-
 import '../../../controller/auth/auth_controller.dart';
+import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   final AuthController controller = Get.find();
 
-  ProfileScreen({Key? key})  : super(key: key) {
+  ProfileScreen({Key? key}) : super(key: key) {
     controller.fetchUserData();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text("My profile"),
+        title: const Text("My profile"),
         centerTitle: false,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -35,10 +35,10 @@ class ProfileScreen extends StatelessWidget {
               leading: CircleAvatar(
                 backgroundImage: controller.userData['imageUrl'] != null
                     ? NetworkImage(controller.userData['imageUrl'])
-                    : const AssetImage('assets/placeholder.png') as ImageProvider,
+                    : const AssetImage('assets/placeholder.png')
+                        as ImageProvider,
                 radius: 30,
               ),
-
               title: Text(
                 "Name: ${controller.userData['name']},",
                 style:
@@ -61,20 +61,25 @@ class ProfileScreen extends StatelessWidget {
             buildProfileOption(
                 Icons.reviews, "My reviews", "Reviews for 4 items"),
             buildProfileOption(
-                Icons.settings, "Settings", "Notifications, password"),
+                Icons.settings, "Settings", "Notifications, password",
+                onTap: () {
+              Get.to(() => EditProfileScreen());
+              controller.fetchUserData();
+            }),
           ],
         );
       }),
     );
   }
 
-  Widget buildProfileOption(IconData icon, String title, String subtitle) {
+  Widget buildProfileOption(IconData icon, String title, String subtitle,
+      {VoidCallback? onTap}) {
     return ListTile(
       leading: Icon(icon, color: Colors.red),
       title: Text(title),
       subtitle: Text(subtitle, style: const TextStyle(color: Colors.grey)),
       trailing: const Icon(Icons.arrow_forward_ios, size: 18),
-      onTap: () {},
+      onTap: onTap,
     );
   }
 }

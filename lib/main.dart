@@ -1,6 +1,7 @@
 import 'package:e_commerce_app/controller/auth/auth_controller.dart';
 import 'package:e_commerce_app/controller/image/image_controller.dart';
 import 'package:e_commerce_app/controller/profile/profile_controller.dart';
+import 'package:e_commerce_app/controller/share/share_controller.dart';
 import 'package:e_commerce_app/firebase_options.dart';
 import 'package:e_commerce_app/view/screen/home/home_screen.dart';
 import 'package:e_commerce_app/view/screen/login/login_srceen.dart';
@@ -18,6 +19,7 @@ void main() async {
   Get.put(FavoritesController3());
   Get.put(ProfileController());
   Get.put(AuthController());
+  Get.put(ShareController());
   Get.put(FirebaseStorageService());
   runApp(MyApp());
 }

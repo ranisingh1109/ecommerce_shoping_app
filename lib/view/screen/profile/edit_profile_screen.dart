@@ -13,16 +13,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final ImagePicker _picker = ImagePicker();
   XFile? imageFile;
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final ProfileController profileController = Get.find<ProfileController>();
 
   @override
   void initState() {
     super.initState();
     _nameController.text = profileController.name.value;
-    _phoneController.text = profileController.phoneNumber.value;
-    _addressController.text = profileController.address.value; // Corrected this line
+    _emailController.text = profileController.emailN.value;
   }
 
   Future<void> _pickImage() async {
@@ -37,20 +35,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void saveProfile() {
     profileController.updateProfile(
       _nameController.text,
-      _phoneController.text,
+      _emailController.text,
       imageFile != null ? imageFile!.path : profileController.imageUrl.value,
-      _addressController.text, // Added address update
     );
-    Get.back(); // Navigate back to the previous screen
+    Get.back();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Profile'),
-        backgroundColor: Colors.white,
+
+        title: const Text('Edit Profile', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.redAccent,
         elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -58,12 +57,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Profile image section
+              // Profile image section with better styling
               Center(
                 child: Stack(
                   children: [
                     CircleAvatar(
-                      radius: 50,
+                      radius: 60,
+                      backgroundColor: Colors.grey.shade200,
                       backgroundImage: imageFile != null
                           ? FileImage(File(imageFile!.path))
                           : profileController.imageUrl.value.isNotEmpty
@@ -71,55 +71,80 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           : null,
                       child: imageFile == null &&
                           profileController.imageUrl.value.isEmpty
-                          ? const Icon(Icons.person, size: 50, color: Colors.grey)
+                          ? const Icon(Icons.person, size: 60, color: Colors.grey)
                           : null,
                     ),
                     Positioned(
                       bottom: 0,
                       right: 0,
-                      child: IconButton(
-                        icon: const Icon(Icons.camera_alt, color: Colors.blue),
-                        onPressed: _pickImage,
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.blueAccent,
+                        child: IconButton(
+                          icon: const Icon(Icons.camera_alt, color: Colors.white, size: 20),
+                          onPressed: _pickImage,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
-              // Name input field
+              const SizedBox(height: 30),
+              const Text(
+                'Full Name',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 8),
               TextField(
                 controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Name',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Phone number input field
-              TextField(
-                controller: _phoneController,
-                maxLength: 10,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Phone Number',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Address input field
-              TextField(
-                controller: _addressController,
-                decoration: const InputDecoration(
-                  labelText: 'Address',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  hintText: 'Enter your name',
+                  prefixIcon: const Icon(Icons.person,color: Colors.redAccent,),
+                  filled: true,
+                  fillColor: Colors.grey.shade100,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
-              // Save button
+
+              // Phone number input field
+              const Text(
+                'Email ',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  hintText: 'Enter your phone Email',
+                  prefixIcon: const Icon(Icons.email,color: Colors.redAccent,),
+                  filled: true,
+                  fillColor: Colors.grey.shade100,
+                  counterText: "",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
               Center(
                 child: ElevatedButton(
                   onPressed: saveProfile,
-                  child: const Text('Save Changes'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                    backgroundColor: Colors.redAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                    'Save Changes',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600,color: Colors.white),
+                  ),
                 ),
               ),
             ],

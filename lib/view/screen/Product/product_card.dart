@@ -1,83 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-
-import '../../../controller/favorites/favorites_controller.dart';
-
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
-
-import '../../../controller/favorites/favorites_controller.dart';
-
-// class ProductCard extends StatelessWidget {
-//   final Map<String, dynamic> product;
-//   final VoidCallback onTap;
-//   final VoidCallback onAddToCart;
-//
-//   const ProductCard({
-//     required this.product,
-//     required this.onTap,
-//     required this.onAddToCart,
-//   });
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final FavoritesController3 favoritesController = Get.find<FavoritesController3>();
-//
-//     return GestureDetector(
-//       onTap: onTap,
-//       child: Column(
-//         children: [
-//           Padding(
-//             padding: const EdgeInsets.only(top: 20),
-//             child: Stack(
-//               children: [
-//                 Image.network(
-//                   product['image'],
-//                   width: 170,
-//                   height: 100,
-//                   fit: BoxFit.cover,
-//                 ),
-//
-//               ],
-//             ),
-//           ),
-//           const SizedBox(height: 10),
-//           Center(
-//             child: Text(
-//               product['title'],
-//               style: const TextStyle(
-//                 fontWeight: FontWeight.bold,
-//                 fontSize: 10,
-//               ),
-//             ),
-//           ),
-//           Text(
-//             '\$${product['price']}',
-//             style: const TextStyle(color: Colors.green),
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.all(8.0),
-//             child: ElevatedButton(
-//               onPressed: onAddToCart,
-//               style: ElevatedButton.styleFrom(
-//                 backgroundColor: Colors.indigo[900],
-//                 shape: RoundedRectangleBorder(
-//                   borderRadius: BorderRadius.circular(10),
-//                 ),
-//               ),
-//               child: const Text(
-//                 'Add to Cart',
-//                 style: TextStyle(color: Colors.white),
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+import 'package:e_commerce_app/controller/share/share_controller.dart';
 
 class ProductDetailScreen1 extends StatelessWidget {
   final String imageUrl;
@@ -93,9 +18,18 @@ class ProductDetailScreen1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double userRating = 3.5;
+    final ShareController controller = Get.put(ShareController());
+    controller.productName.value = labelText;
+    controller.productPrice.value = price;
+    controller.productImageUrl.value = imageUrl;
     return Scaffold(
       appBar: AppBar(
-        title: Text(labelText),
+        backgroundColor: Colors.redAccent,
+        title: Text(
+          labelText,
+          style: const TextStyle(color: Colors.white),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -116,38 +50,33 @@ class ProductDetailScreen1 extends StatelessWidget {
                   right: 10,
                   child: Column(
                     children: [
-                     CircleAvatar(
-                       child:  IconButton(
-                         onPressed: () {
-                           Fluttertoast.showToast(
-                             msg: "Added to Favorites!",
-                             toastLength: Toast.LENGTH_SHORT,
-                             gravity: ToastGravity.BOTTOM,
-                             backgroundColor: Colors.green,
-                             textColor: Colors.white,
-                           );
-                         },
-                         icon: const Icon(
-                           Icons.favorite_border,
-                           color: Colors.black,
-                           size: 25,
-                         ),
-                       ),
-                     ),
-                      // Share Icon
-                      SizedBox(height: 100,),
+                      // Favorite Button
                       CircleAvatar(
                         child: IconButton(
                           onPressed: () {
                             Fluttertoast.showToast(
-                              msg: "Sharing the product!",
+                              msg: "Added to Favorites!",
                               toastLength: Toast.LENGTH_SHORT,
                               gravity: ToastGravity.BOTTOM,
-                              backgroundColor: Colors.blue,
+                              backgroundColor: Colors.green,
                               textColor: Colors.white,
                             );
                           },
-                          icon: Icon(
+                          icon: const Icon(
+                            Icons.favorite_border,
+                            color: Colors.black,
+                            size: 25,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 100),
+                      // Share Button
+                      CircleAvatar(
+                        child: IconButton(
+                          onPressed: () {
+                            controller.shareProduct();
+                          },
+                          icon: const Icon(
                             Icons.share,
                             color: Colors.black,
                             size: 25,
@@ -164,6 +93,7 @@ class ProductDetailScreen1 extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Product Title
                   Text(
                     labelText,
                     style: const TextStyle(
@@ -171,17 +101,42 @@ class ProductDetailScreen1 extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  // Product Price
                   Text(
                     'Price: $price',
                     style: const TextStyle(
                       fontSize: 18,
-                      color: Colors.green,
+                      color: Colors.redAccent,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 10),
+                  // Product Rating
+                  RatingBar.builder(
+                    initialRating: userRating,
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 5,
+                    itemSize: 25,
+                    itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    itemBuilder: (context, _) => const Icon(
+                      Icons.star,
+                      color: Colors.redAccent,
+                    ),
+                    onRatingUpdate: (rating) {
+                      Fluttertoast.showToast(
+                        msg: "You rated: $rating",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: Colors.blue,
+                        textColor: Colors.white,
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  // Product Description
                   const Text(
-                    'Description',
+                    'Description:',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -201,5 +156,3 @@ class ProductDetailScreen1 extends StatelessWidget {
     );
   }
 }
-
-
