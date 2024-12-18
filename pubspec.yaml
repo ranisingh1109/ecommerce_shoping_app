@@ -49,6 +49,7 @@ dependencies:
   flutter_rating_bar: any
   firebase_dynamic_links: any
   share: any
+  shared_preferences: ^2.2.2
 
 
 

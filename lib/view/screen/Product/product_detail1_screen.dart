@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import '../../../controller/favorites/favorites_controller.dart';
+import 'package:get/get.dart';
 import '../../../controller/share/share_controller.dart';
+import '../../../controller/favorites/favorites_controller.dart';
 
-class ProductDetailScreen extends StatelessWidget {
-  final Map<String, dynamic> product;
+class ProductDetailScreen1 extends StatelessWidget {
+  final String productId;
+  final String imageUrl;
   final String labelText;
-  final int productIndex;
+  final String price;
+  final String description;
 
-  const ProductDetailScreen({
-    required this.product,
-    required this.productIndex,
+  const ProductDetailScreen1({
+    Key? key,
+    required this.productId,
+    required this.imageUrl,
     required this.labelText,
-  });
+    required this.price,
+    required this.description,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final ShareController shareController = Get.put(ShareController());
     final FavoritesController3 favoritesController =
         Get.find<FavoritesController3>();
-    final ShareController shareController = Get.put(ShareController());
-    double userRating = 3.5;
 
     return Scaffold(
       appBar: AppBar(
@@ -50,32 +54,32 @@ class ProductDetailScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Image.network(
-                      product['image'],
+                      imageUrl,
                       height: 400,
                       fit: BoxFit.cover,
                     ),
                   ),
-                  const SizedBox(width: 10),
                 ],
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
               Text(
-                product['title'],
+                labelText,
                 style: const TextStyle(
-                  fontSize: 30,
+                  fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 0),
+              const SizedBox(height: 5),
               Text(
-                '\$${product['price']}',
+                '\$$price',
                 style: const TextStyle(
                   fontSize: 18,
                   color: Colors.green,
                 ),
               ),
+              const SizedBox(height: 10),
               RatingBar.builder(
-                initialRating: userRating,
+                initialRating: 4.0,
                 minRating: 1,
                 direction: Axis.horizontal,
                 allowHalfRating: true,
@@ -88,10 +92,13 @@ class ProductDetailScreen extends StatelessWidget {
                 ),
                 onRatingUpdate: (rating) {},
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
               const Text(
                 'Product Description:',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 5),
               const Text(
@@ -101,21 +108,19 @@ class ProductDetailScreen extends StatelessWidget {
                 "UK The store is open for late night shopping on Wednesdays",
                 style: TextStyle(fontSize: 14),
               ),
-              const SizedBox(height: 20),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(8.0),
+      bottomNavigationBar: Container(
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               child: ElevatedButton.icon(
-                onPressed: () {
-                  Fluttertoast.showToast(
-                      msg: "${product['title']} added to cart!");
-                },
+                onPressed: () {},
                 icon: const Icon(Icons.shopping_cart),
                 label: const Text("Add to Cart"),
                 style: ElevatedButton.styleFrom(
@@ -124,13 +129,14 @@ class ProductDetailScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 10),
+            SizedBox(
+              width: 25,
+            ),
             Expanded(
               child: ElevatedButton.icon(
                 onPressed: () {},
                 icon: Icon(
                   Icons.favorite_border,
-                  color: Colors.white,
                 ),
                 label: const Text("Add to Favorites"),
                 style: ElevatedButton.styleFrom(
@@ -139,6 +145,8 @@ class ProductDetailScreen extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(width: 10),
+            // Buy Now Button
           ],
         ),
       ),

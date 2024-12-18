@@ -19,13 +19,11 @@ class _HomepageScreenState extends State<HomepageScreen> {
   // Pages for Navigation
   static final List<Widget> _pages = <Widget>[
     ProductListScreen(),
-    FavoriteScreen(),
+    FavoriteScreen(allProducts: [],),
     HistoryScreen(),
     PaymentScreen(),
     ProfileScreen(),
   ];
-
-  // Method to switch pages
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -36,7 +34,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _pages[_selectedIndex], // Selected page
+        child: _pages[_selectedIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,

@@ -12,9 +12,9 @@ class ShareController extends GetxController {
   Future<void> createDynamicLink(String productId) async {
     var parameters = DynamicLinkParameters(
       link: Uri.parse("https://firebaefirestoreproject.page.link/product?productId=$productId"),
-      uriPrefix: "https://firebaefirestoreproject.page.link",
+      uriPrefix: "https://firestorges.page.link",
       androidParameters: const AndroidParameters(
-        packageName: "com.example.firebae_firestore_project",
+        packageName: "com.example.e_commerce_app",
         minimumVersion: 1,
       ),
     );
@@ -33,7 +33,7 @@ class ShareController extends GetxController {
     }
   }
   void _shareDynamicLink(String link) {
-    Share.share("Check out this product: $link");
+    Share.share("$link");
     Fluttertoast.showToast(
       msg: "Sharing product link...",
       toastLength: Toast.LENGTH_SHORT,

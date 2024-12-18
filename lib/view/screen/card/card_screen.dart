@@ -34,78 +34,81 @@ class CartScreen extends StatelessWidget {
           children: [
             cartController.cartItems.isEmpty
                 ? const Expanded(
-              child: Center(
-                child: Text(
-                  'Your cart is empty',
-                  style: TextStyle(fontSize: 18, color: Colors.black87),
-                ),
-              ),
-            )
+                    child: Center(
+                      child: Text(
+                        'Your cart is empty',
+                        style: TextStyle(fontSize: 18, color: Colors.black87),
+                      ),
+                    ),
+                  )
                 : Expanded(
-              child: ListView.builder(
-                itemCount: cartController.cartItems.length,
-                itemBuilder: (context, index) {
-                  final item = cartController.cartItems[index];
-                  final imageUrl = item['image'] ?? '';
-                  final title = item['title'] ?? 'No Title';
-                  final price = item['price'] != null
-                      ? double.tryParse(item['price'].toString()) ?? 0.0
-                      : 0.0;
-                  return Card(
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+                    child: ListView.builder(
+                      itemCount: cartController.cartItems.length,
+                      itemBuilder: (context, index) {
+                        final item = cartController.cartItems[index];
+                        final imageUrl = item['image'] ?? '';
+                        final title = item['title'] ?? 'No Title';
+                        final price = item['price'] != null
+                            ? double.tryParse(item['price'].toString()) ?? 0.0
+                            : 0.0;
+                        return Card(
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 12),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(16),
+                            leading: Container(
+                              width: 80,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(0),
+                                image: imageUrl.isNotEmpty
+                                    ? DecorationImage(
+                                        image: NetworkImage(imageUrl),
+                                        fit: BoxFit.cover,
+                                      )
+                                    : null,
+                              ),
+                              child: imageUrl.isEmpty
+                                  ? Icon(Icons.image,
+                                      size: 60, color: Colors.grey)
+                                  : null,
+                            ),
+                            title: Text(
+                              title,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Colors.black87,
+                              ),
+                            ),
+                            subtitle: Text(
+                              '\$${price.toStringAsFixed(2)}',
+                              style: TextStyle(
+                                  fontSize: 14, color: Colors.grey[700]),
+                            ),
+                            trailing: IconButton(
+                              icon:
+                                  Icon(Icons.remove_circle, color: Colors.red),
+                              onPressed: () {
+                                cartController.removeFromCart(item);
+                                print('Removed from cart: $title');
+                              },
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                    margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.all(16),
-                      leading: Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(0),
-                          image: imageUrl.isNotEmpty
-                              ? DecorationImage(
-                            image: NetworkImage(imageUrl),
-                            fit: BoxFit.cover,
-                          )
-                              : null,
-                        ),
-                        child: imageUrl.isEmpty
-                            ? Icon(Icons.image, size: 60, color: Colors.grey)
-                            : null,
-                      ),
-                      title: Text(
-                        title,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      subtitle: Text(
-                        '\$${price.toStringAsFixed(2)}',
-                        style: TextStyle(fontSize: 14, color: Colors.grey[700]),
-                      ),
-                      trailing: IconButton(
-                        icon: Icon(Icons.remove_circle, color: Colors.red),
-                        onPressed: () {
-                          cartController.removeFromCart(item);
-                          print('Removed from cart: $title');
-                        },
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
+                  ),
             Padding(
               padding: const EdgeInsets.only(bottom: 40, left: 16, right: 16),
               child: SizedBox(
                 width: double.infinity,
                 height: 50,
-                child:
-                ElevatedButton(
+                child: ElevatedButton(
                   onPressed: () {
                     // Handle purchase logic here
                     print("Proceed to checkout");

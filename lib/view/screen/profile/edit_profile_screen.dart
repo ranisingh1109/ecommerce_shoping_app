@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:e_commerce_app/view/screen/login/login_srceen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,21 +12,21 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  final ImagePicker _picker = ImagePicker();
+  final ImagePicker picker = ImagePicker();
   XFile? imageFile;
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final ProfileController profileController = Get.find<ProfileController>();
 
   @override
   void initState() {
     super.initState();
-    _nameController.text = profileController.name.value;
-    _emailController.text = profileController.emailN.value;
+    nameController.text = profileController.name.value;
+    emailController.text = profileController.emailN.value;
   }
 
   Future<void> _pickImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
         imageFile = pickedFile;
@@ -34,8 +36,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   void saveProfile() {
     profileController.updateProfile(
-      _nameController.text,
-      _emailController.text,
+      nameController.text,
+      emailController.text,
       imageFile != null ? imageFile!.path : profileController.imageUrl.value,
     );
     Get.back();
@@ -96,7 +98,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               const SizedBox(height: 8),
               TextField(
-                controller: _nameController,
+                controller: nameController,
                 decoration: InputDecoration(
                   hintText: 'Enter your name',
                   prefixIcon: const Icon(Icons.person,color: Colors.redAccent,),
@@ -117,7 +119,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               const SizedBox(height: 8),
               TextField(
-                controller: _emailController,
+                controller: emailController,
                 decoration: InputDecoration(
                   hintText: 'Enter your phone Email',
                   prefixIcon: const Icon(Icons.email,color: Colors.redAccent,),
@@ -143,6 +145,27 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                   child: const Text(
                     'Save Changes',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600,color: Colors.white),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Center(
+                child: ElevatedButton(
+                  onPressed: (){
+                    FirebaseAuth.instance.signOut();
+                    Navigator.push(context,  MaterialPageRoute(builder: (context) => LoginScreen(),));
+                    //Get.to(LoginScreen);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                    backgroundColor: Colors.redAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                    'Logout',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600,color: Colors.white),
                   ),
                 ),

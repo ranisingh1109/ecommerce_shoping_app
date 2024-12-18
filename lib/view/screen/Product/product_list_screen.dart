@@ -1,8 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_commerce_app/utils/app_color.dart';
-import 'package:e_commerce_app/view/screen/Product/product_card.dart';
+import 'package:e_commerce_app/view/screen/Product/product_detail1_screen.dart';
 import 'package:e_commerce_app/view/screen/Product/product_detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import '../../../controller/auth/auth_controller.dart';
 import '../../../controller/favorites/favorites_controller.dart';
@@ -178,7 +179,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
       "price": "12\$"
     },
   ];
-  final List<Map<String, String>> categories = [
+  final List<Map<String, String>> categories =
+  [
     {
       "name": "Dresses",
       "image":
@@ -472,11 +474,12 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     return const Center(child: Text('No images available.'));
                   }
 
+                  List<bool> likedProducts = List<bool>.filled(snapshot.data!.length, false);
+
                   return GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 12.0,
                       mainAxisSpacing: 12.0,
@@ -486,98 +489,111 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
                       final item = snapshot.data![index];
-
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProductDetailScreen(
-                                product: {
-                                  'title': 'Trending Product',
-                                  'price': item['price'] ?? 'Rs. 0',
-                                  'image': item['url'] ?? '',
-                                  'description': 'This is a trending product.'
-                                },
-                                productIndex: index,
+                      return StatefulBuilder(
+                        builder: (context, setState) {
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProductDetailScreen(
+                                    product: {
+                                      'title': 'Trending Product',
+                                      'price': item['price'] ?? 'Rs. 0',
+                                      'image': item['url'] ?? '',
+                                    },
+                                    productIndex: index,
+                                    labelText: '',
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Card(
+                              elevation: 4,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Stack(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            topRight: Radius.circular(10),
+                                          ),
+                                          child: Image.network(
+                                            item['url'] ?? '',
+                                            width: double.infinity,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        // const Positioned(
+                                        //   bottom: 115,
+                                        //   right: 0,
+                                        //   child:  CircleAvatar(
+                                        //       backgroundColor: Colors.white,
+                                        //       child: Icon(Icons.favorite_border, color: Colors.black,)),
+                                        // ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 8,
+                                            vertical: 4,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Colors.blue,
+                                            borderRadius: BorderRadius.circular(4),
+                                          ),
+                                          child: const Text(
+                                            'Trending',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          item['price'] ?? 'Rs. 0',
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           );
                         },
-                        child: Card(
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    topRight: Radius.circular(10),
-                                  ),
-                                  child: Image.network(
-                                    item['url'] ?? '',
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8,
-                                        vertical: 4,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.blue,
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                      child: const Text(
-                                        'Trending',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      item['price'] ?? 'Rs. 0',
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                       );
                     },
                   );
                 },
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
-
   Widget buildImageCard(
       String imageUrl, String labelText, String price, int index) {
     return Container(
-      width: 220,
+      width: 220.0, // Fixed typo here
       margin: const EdgeInsets.all(8.0),
       child: Stack(
         children: [
@@ -594,6 +610,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                         imageUrl: imageUrl,
                         labelText: labelText,
                         price: price,
+                        productId: index.toString(),
+                        description: '',
                       ),
                     ),
                   );
@@ -625,6 +643,21 @@ class _ProductListScreenState extends State<ProductListScreen> {
             ],
           ),
           // Positioned(
+          //   bottom: 294,
+          //   right: 2.0,
+          //   child: CircleAvatar(
+          //     backgroundColor: Colors.white,
+          //     radius: 20.0,
+          //     child: IconButton(
+          //       icon: const Center(child: Icon(Icons.favorite_border, color: Colors.black)),
+          //       onPressed: () {
+          //
+          //       },
+          //     ),
+          //   ),
+          // ),
+          // Uncomment and adjust if needed
+          // Positioned(
           //   bottom: 40.0,
           //   left: 50.0,
           //   right: 50.0,
@@ -652,8 +685,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
           //         shape: RoundedRectangleBorder(
           //           borderRadius: BorderRadius.circular(10),
           //         ),
-          //         padding:
-          //             const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          //         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           //         textStyle: const TextStyle(
           //           fontSize: 16,
           //           fontWeight: FontWeight.bold,
@@ -675,4 +707,5 @@ class _ProductListScreenState extends State<ProductListScreen> {
       ),
     );
   }
+
 }

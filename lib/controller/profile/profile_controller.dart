@@ -17,6 +17,6 @@ class ProfileController extends GetxController {
   void fetchUserData() {
     name.value = "John Doe";
     emailN.value = "john.doe@example.com";
-    imageUrl.value = "path/to/your/image.jpg"; // Example, replace with actual path
+    imageUrl.value = "path/to/your/image.jpg";
   }
 }

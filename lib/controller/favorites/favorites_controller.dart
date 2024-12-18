@@ -1,16 +1,15 @@
 import 'package:get/get.dart';
-
-import '../../model/model.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 class FavoritesController3 extends GetxController {
-  var favorites = <int>[].obs;
-  void toggleFavorite(int index) {
-    if (favorites.contains(index)) {
-      favorites.remove(index);
+  List<int> favorites = [];
+
+  void toggleFavorite(int productId) {
+    if (favorites.contains(productId)) {
+      favorites.remove(productId);
     } else {
-      favorites.add(index);
+      favorites.add(productId);
     }
-  }
-  bool isFavorite(int index) {
-    return favorites.contains(index);
+    update();
   }
 }
+
